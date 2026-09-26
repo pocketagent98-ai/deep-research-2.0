@@ -1,6 +1,6 @@
 {
   "query": "Is AI in a hype cycle?",
-  "max_sections": 3,
+  "max_sections": 5,
   "max_plan_revisions": 3,
   "publish_formats": {
     "markdown": true,
@@ -9,11 +9,10 @@
   },
   "include_human_feedback": false,
   "follow_guidelines": false,
-  "model": "gpt-5.4",
+  "model": "glm-4.5-flash",
   "guidelines": [
-    "The report MUST be written in APA format",
-    "Each sub section MUST include supporting sources using hyperlinks. If none exist, erase the sub section or rewrite it to be a part of the previous section",
-    "The report MUST be written in spanish"
+    "The report MUST be well structured with headings and subheadings",
+    "Each sub section MUST include supporting sources using hyperlinks. If none exist, erase the sub section or rewrite it to be a part of the previous section"
   ],
   "verbose": true
 }
