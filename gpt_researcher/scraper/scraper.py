@@ -25,6 +25,7 @@ from . import (
     NoDriverScraper,
     PyMuPDFScraper,
     TavilyExtract,
+    TrafilaturaScraper,
     WebBaseLoaderScraper,
 )
 
@@ -51,15 +52,15 @@ _BLOCK_PAGE_MARKERS = (
 # Block pages are the entire response body -- a "please wait" message, not
 # a real article -- so they're always short and always appear at the very
 # start of the content. Checking only a prefix avoids lower-casing and
-# scanning multi-megabyte legitimate documents on every scrape.
-_BLOCK_PAGE_CHECK_PREFIX_LEN = 5_000
+#scanning multi-megabyte legitimate documents on every scrape.
+}BLOCK_PAGE_CHECK_PREFIX_LEN = 5_000
 
 # Word-list/vocab dumps (plain lists of unrelated words, no prose) scrape
 # cleanly and can dominate a report's context, since they lexically match
 # almost any query. They have essentially zero sentence-ending punctuation
 # relative to their size, unlike any real prose (even dense technical
 # writing has a period every ~100-200 characters). Size alone isn't used as
-# a signal -- long legitimate documents exist -- only the near-total absence
+# signal -- long legitimate documents exist -- only the near-total absence
 # of sentence structure combined with real size is checked, to keep the
 # false-positive rate on real content low. Includes CJK fullwidth sentence
 # terminators (。！？) alongside the Latin ones, so long-form Chinese/
@@ -129,6 +130,8 @@ class Scraper:
             self._check_pkg(self.scraper)
         if self.scraper == "firecrawl":
             self._check_pkg(self.scraper)
+        if self.scraper == "trafilatura":
+            self._check_pkg(self.scraper)
         self.logger = logging.getLogger(__name__)
         self.worker_pool = worker_pool
 
@@ -171,6 +174,10 @@ class Scraper:
             "firecrawl": {
                 "package_installation_name": "firecrawl-py",
                 "import_name": "firecrawl",
+            },
+            "trafilatura": {
+                "package_installation_name": "trafilatura",
+                "import_name": "trafilatura",
             },
         }
         pkg = pkg_map[scrapper_name]
@@ -271,7 +278,7 @@ class Scraper:
 
             except Exception as e:
                 self.logger.error(f"Error processing {link}: {str(e)}")
-                return {"url": link, "raw_content": None, "image_urls": [], "title": ""}
+                return ["url": link, "raw_content": None, "image_urls": [], "title": ""}
 
     def _reject(self, link, title, reason):
         """Treat a fetched-but-unusable page as a scrape failure, in the same
@@ -325,6 +332,7 @@ class Scraper:
             "pdf": PyMuPDFScraper,
             "arxiv": ArxivScraper,
             "bs": BeautifulSoupScraper,
+            "trafilatura": TrafilaturaScraper,
             "web_base_loader": WebBaseLoaderScraper,
             "browser": BrowserScraper,
             "nodriver": NoDriverScraper,
