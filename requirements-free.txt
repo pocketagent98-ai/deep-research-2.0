@@ -1,0 +1,16 @@
+# Deep Research 2.0 — FREE power-up extras
+# Install: pip install -r requirements-free.txt
+
+# Clean-text scraping (SCRAPER=trafilatura)
+trafilatura>=1.12
+
+# Fact-checking / evaluation (scripts/fact-check.py)
+ragas>=0.2
+langchain-openai>=0.2
+
+# Vector memory (scripts/memory-qdrant.py) — Qdrant + local embeddings
+qdrant-client>=1.12
+sentence-transformers>=3.0
+
+# PDF padhne ke liye (memory me PDF index karni ho to)
+pymupdf>=1.24

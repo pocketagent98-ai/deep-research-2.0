@@ -1,0 +1,40 @@
+# =====================================================================
+#  FREE Deep Research 2.0 — Power-up stack
+#  SearxNG (meta search, 70+ engines, no API key/limit) + Qdrant (vector memory)
+#
+#  Chalane ke liye:   docker compose -f docker-compose.free-stack.yml up -d
+#  Band karne ke liye: docker compose -f docker-compose.free-stack.yml down
+# =====================================================================
+
+services:
+
+  # ---------- SearxNG: meta search engine ----------
+  # Google, Bing, DuckDuckGo, Wikipedia... 70+ engines ek saath, bina API key.
+  # Iske baad .env me set karo:
+  #   RETRIEVER=searx
+  #   SEARX_URL=http://localhost:8888
+  searxng:
+    image: searxng/searxng:latest
+    container_name: dr20-searxng
+    ports:
+      - "8888:8080"
+    volumes:
+      - ./searxng:/etc/searxng
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8888/
+    restart: unless-stopped
+
+  # ---------- Qdrant: vector database (research memory) ----------
+  # Purani research reports ko yaad rakhne ke liie (scripts/memory-qdrant.py dekho).
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: dr20-qdrant
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+
+volumes:
+  qdrant_data:

@@ -1,0 +1,17 @@
+# SearxNG settings — Deep Research 2.0 free stack
+# JSON output on hai taaki GPT Researcher ka searx retriever use kar sake.
+use_default_settings: true
+
+server:
+  # Apne local instance ke liye koi bhi random lambi string daal do
+  secret_key: "please-change-this-to-something-random"
+  limiter: false
+  image_proxy: false
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  default_lang: "auto"
+  formats:
+    - html
+    - json
